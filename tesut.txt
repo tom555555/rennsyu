@@ -1,0 +1,64 @@
+#データセット作成
+import pandas as pd
+#モジュールの読み込み
+first = pd.DataFrame({
+    "junle":["PS4:Action","PS4:RPG","PS4:music","PS4:horrer","switch:Action","switch:RPG","switch:music","switch:horrer",
+             "sumapho:Action","sumapho:RPG","sumapho:music","sumapho:horrer"],
+    "like":[2,2,0,1,0,2,0,1,0,2,1,0],
+    "buy":[4,4,0,3,1,3,0,1,0,4,2,0],
+    "%":[50,50,0,30,0,60,0,100,0,50,50,0]
+})    
+#データセットの作成
+display(first)
+
+#内容表示
+
+# 過去一年の面白かった(購入した)ゲームの統計データ
+# --------------------------------------------
+# ジャンル　　　PS4　スイッチ　スマホ　     計  購入本数
+
+# アクション　　2(4)　 0(1)　　　　0(0)　　　2　　5
+# RPG　　　　　 2(4)   2(3)        2(4)　　　6　　11
+# 音楽       　 0(0)   0(0)        1(2)　　　1　　2
+# ホラー        1(3)   1(1)        0(0)　　　2　　4
+# 合計　　　　　5(11)　4(5)　　　　3(6)　　  11　 22
+# ---------------------------------------------
+
+#データセット2作成
+second = pd.DataFrame({
+    "junle":["PS4","switch","sumaho"],
+    "buy":[11,5,6],
+    "like":[5,4,3],
+    "%":[45,80,50],
+    "best":[1,1,1,]
+})    
+#データセットの作成
+display(second)
+
+
+transaction_detail = pd.concat([first,second],ignore_index=True)
+#データを結合(ユニオン）：データを縦に結合
+display(transaction_detail)
+#分かりづらくなったため、当コードは不採用
+
+#データセット3作成
+third = pd.DataFrame({
+    "best":[1,1,0,0,0,1,0,0,0,1,0,0],
+})    
+#データセットの作成
+display(third)
+
+first["%"] = first["like"] / first["buy"]
+#確率計算
+first["%"] = first.where((pd.notnull(first)),0)
+#Nanを０に変換
+first["%"] = "{:.0%}".format(first["%"])
+#%表示への変換（エラーが出てしまい、対応中）
+display(first)
+
+first.isnull().sum()
+#欠損値の確認
+
+first.describe()
+#各種データ統計
+
